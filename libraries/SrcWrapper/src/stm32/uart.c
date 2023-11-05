@@ -947,7 +947,7 @@ void USART1_IRQHandler(void)
   * @retval None
   */
 #if defined(USART2_BASE)
-void USART2_IRQHandler(void)
+__weak void USART2_IRQHandler(void)
 {
   HAL_NVIC_ClearPendingIRQ(USART2_IRQn);
   if (uart_handlers[UART2_INDEX] != NULL) {
