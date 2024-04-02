@@ -15,7 +15,7 @@
  * STM32L151V(8-B)Tx.xml, STM32L151V(8-B)TxA.xml
  * STM32L152V(8-B)Hx.xml, STM32L152V(8-B)HxA.xml
  * STM32L152V(8-B)Tx.xml, STM32L152V(8-B)TxA.xml
- * CubeMX DB release 6.0.80
+ * CubeMX DB release 6.0.100
  */
 #if !defined(CUSTOM_PERIPHERAL_PINS)
 #include "Arduino.h"
@@ -93,6 +93,8 @@ WEAK const PinMap PinMap_I2C_SCL[] = {
   {NC,    NP,   0}
 };
 #endif
+
+//*** No I3C ***
 
 //*** TIM ***
 

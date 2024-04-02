@@ -78,7 +78,11 @@ void enableClock(sourceClock_t source)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
 #if defined(RCC_PLL_NONE)
+#if defined(STM32WBAxx)
+  RCC_OscInitStruct.PLL1.PLLState = RCC_PLL_NONE;
+#else
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+#endif
 #endif
 
 #if defined(STM32MP1xx)
@@ -95,16 +99,29 @@ void enableClock(sourceClock_t source)
   switch (source) {
     case LSI_CLOCK:
 #ifdef RCC_FLAG_LSI1RDY
+      __HAL_RCC_LSI1_ENABLE();
       if (__HAL_RCC_GET_FLAG(RCC_FLAG_LSI1RDY) == RESET) {
+#ifdef RCC_OSCILLATORTYPE_LSI1
         RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI1;
 #else
-      if (__HAL_RCC_GET_FLAG(RCC_FLAG_LSIRDY) == RESET) {
         RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI;
 #endif
+#ifdef RCC_LSI1_ON
+        RCC_OscInitStruct.LSIState = RCC_LSI1_ON;
+#else
+        RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+#endif
+      }
+#else
+      __HAL_RCC_LSI_ENABLE();
+      if (__HAL_RCC_GET_FLAG(RCC_FLAG_LSIRDY) == RESET) {
+        RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI;
         RCC_OscInitStruct.LSIState = RCC_LSI_ON;
       }
+#endif
       break;
     case HSI_CLOCK:
+      __HAL_RCC_HSI_ENABLE();
       if (__HAL_RCC_GET_FLAG(RCC_FLAG_HSIRDY) == RESET) {
         RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_HSI;
         RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -116,18 +133,30 @@ void enableClock(sourceClock_t source)
       }
       break;
     case LSE_CLOCK:
+      __HAL_RCC_LSE_CONFIG(RCC_LSE_ON);
       if (__HAL_RCC_GET_FLAG(RCC_FLAG_LSERDY) == RESET) {
 #ifdef __HAL_RCC_LSEDRIVE_CONFIG
+#ifdef RCC_LSEDRIVE_LOW
         __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
+#else
+        __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_MEDIUMLOW);
+#endif
 #endif
         RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSE;
         RCC_OscInitStruct.LSEState = RCC_LSE_ON;
       }
       break;
-    case HSE_CLOCK:
-      if (__HAL_RCC_GET_FLAG(RCC_FLAG_HSERDY) == RESET) {
-        RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_HSE;
-        RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+    case HSE_CLOCK: {
+#if defined(RCC_HSE_BYPASS_PWR) && defined(LORAWAN_BOARD_HAS_TCXO) && (LORAWAN_BOARD_HAS_TCXO == 1)
+        uint32_t HSEState = RCC_HSE_BYPASS_PWR;
+#else
+        uint32_t HSEState = RCC_HSE_ON;
+#endif
+        __HAL_RCC_HSE_CONFIG(HSEState);
+        if (__HAL_RCC_GET_FLAG(RCC_FLAG_HSERDY) == RESET) {
+          RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_HSE;
+          RCC_OscInitStruct.HSEState = HSEState;
+        }
       }
       break;
     default:

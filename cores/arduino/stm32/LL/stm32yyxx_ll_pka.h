@@ -8,7 +8,9 @@
   #pragma GCC diagnostic ignored "-Wregister"
 #endif
 
-#ifdef STM32L4xx
+#ifdef STM32H5xx
+  #include "stm32h5xx_ll_pka.h"
+#elif STM32L4xx
   #include "stm32l4xx_ll_pka.h"
 #elif STM32L5xx
   #include "stm32l5xx_ll_pka.h"
@@ -16,6 +18,8 @@
   #include "stm32u5xx_ll_pka.h"
 #elif STM32WBxx
   #include "stm32wbxx_ll_pka.h"
+#elif STM32WBAxx
+  #include "stm32wbaxx_ll_pka.h"
 #elif STM32WLxx
   #include "stm32wlxx_ll_pka.h"
 #endif

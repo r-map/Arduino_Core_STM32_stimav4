@@ -90,6 +90,25 @@ typedef enum {
   PERCENT_COMPARE_FORMAT, // used for Dutycycle
 } TimerCompareFormat_t;
 
+typedef enum {
+  FILTER_NONE = 0,  // No filter
+  FILTER_CKINT_N2,  // Sampling rate is same as clock interrupt, n=2 events
+  FILTER_CKINT_N4,  // Sampling rate is same as clock interrupt, n=4 events
+  FILTER_CKINT_N8,  // Sampling rate is same as clock interrupt, n=8 events
+  FILTER_DTS2_N6,   // Sampling rate is DTS/2, n=6 events
+  FILTER_DTS2_N8,   // Sampling rate is DTS/2, n=8 events
+  FILTER_DTS4_N6,   // Sampling rate is DTS/4, n=6 events
+  FILTER_DTS4_N8,   // Sampling rate is DTS/4, n=8 events
+  FILTER_DTS8_N6,   // Sampling rate is DTS/8, n=6 events
+  FILTER_DTS8_N8,   // Sampling rate is DTS/8, n=8 events
+  FILTER_DTS16_N5,  // Sampling rate is DTS/16, n=5 events
+  FILTER_DTS16_N6,  // Sampling rate is DTS/16, n=6 events
+  FILTER_DTS16_N8,  // Sampling rate is DTS/16, n=8 events
+  FILTER_DTS32_N5,  // Sampling rate is DTS/32, n=5 events
+  FILTER_DTS32_N6,  // Sampling rate is DTS/32, n=6 events
+  FILTER_DTS32_N8,  // Sampling rate is DTS/32, n=8 events
+} ChannelInputFilter_t;
+
 #ifdef __cplusplus
 
 #include <functional>
@@ -121,8 +140,8 @@ class HardwareTimer {
     void setCount(uint32_t val, TimerFormat_t format = TICK_FORMAT); // set timer counter to value 'val' depending on format provided
     uint32_t getCount(TimerFormat_t format = TICK_FORMAT);  // return current counter value of timer depending on format provided
 
-    void setMode(uint32_t channel, TimerModes_t mode, PinName pin = NC); // Configure timer channel with specified mode on specified pin if available
-    void setMode(uint32_t channel, TimerModes_t mode, uint32_t pin);
+    void setMode(uint32_t channel, TimerModes_t mode, PinName pin = NC, ChannelInputFilter_t filter = FILTER_NONE); // Configure timer channel with specified mode on specified pin if available
+    void setMode(uint32_t channel, TimerModes_t mode, uint32_t pin, ChannelInputFilter_t filter = FILTER_NONE);
 
     TimerModes_t getMode(uint32_t channel);  // Retrieve configured mode
 
@@ -162,10 +181,11 @@ class HardwareTimer {
     int getLLChannel(uint32_t channel);
     int getIT(uint32_t channel);
     int getAssociatedChannel(uint32_t channel);
-#if defined(TIM_CCER_CC1NE)
-    bool isComplementaryChannel[TIMER_CHANNELS];
-#endif
+
   private:
+    // Store for each channel if regular, complementary or both are used
+    // High part for complementary (COMPLEMENTARY_CHAN_MASK), low part for regular (REGULAR_CHAN_MASK)
+    uint8_t __ChannelsUsed[TIMER_CHANNELS];
     TimerModes_t  _ChannelMode[TIMER_CHANNELS];
     timerObj_t _timerObj;
     callback_function_t callbacks[1 + TIMER_CHANNELS]; //Callbacks: 0 for update, 1-4 for channels. (channel5/channel6, if any, doesn't have interrupt)

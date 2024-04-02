@@ -71,7 +71,7 @@
 #define PD5                     53
 #define PD4                     54
 #define PD3                     55
-#define PE2                     56
+// 56 is PE2                   (31)
 #define PE4                     57
 #define PE5                     58
 #define PE6                     59
@@ -223,7 +223,12 @@
 // Value of the External oscillator in Hz
 #define HSE_VALUE               8000000U
 
-/* Extra HAL modules */
+// SDMMC signals not available
+#define SDMMC_CKIN_NA
+#define SDMMC_CDIR_NA
+#define SDMMC_D0DIR_NA
+#define SDMMC_D123DIR_NA
+
 // Extra HAL modules
 #if !defined(HAL_DAC_MODULE_DISABLED)
   #define HAL_DAC_MODULE_ENABLED

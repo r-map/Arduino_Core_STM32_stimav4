@@ -12,7 +12,7 @@
  */
 /*
  * Automatically generated from STM32WB30CEUxA.xml, STM32WB50CGUx.xml
- * CubeMX DB release 6.0.80
+ * CubeMX DB release 6.0.100
  */
 #if !defined(CUSTOM_PERIPHERAL_PINS)
 #include "Arduino.h"
@@ -68,6 +68,8 @@ WEAK const PinMap PinMap_I2C_SCL[] = {
   {NC,   NP,   0}
 };
 #endif
+
+//*** No I3C ***
 
 //*** TIM ***
 

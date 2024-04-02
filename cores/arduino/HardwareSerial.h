@@ -125,7 +125,8 @@ class HardwareSerial : public Stream {
     virtual int peek(void);
     virtual int read(void);
     int availableForWrite(void);
-    virtual void flush(void);
+    virtual void flush();
+    void flush(uint32_t timeout);
     virtual size_t write(uint8_t);
     inline size_t write(unsigned long n)
     {

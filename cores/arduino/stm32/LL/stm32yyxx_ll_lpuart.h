@@ -12,6 +12,8 @@
   #include "stm32g0xx_ll_lpuart.h"
 #elif STM32G4xx
   #include "stm32g4xx_ll_lpuart.h"
+#elif STM32H5xx
+  #include "stm32h5xx_ll_lpuart.h"
 #elif STM32H7xx
   #include "stm32h7xx_ll_lpuart.h"
 #elif STM32L0xx
@@ -24,6 +26,8 @@
   #include "stm32u5xx_ll_lpuart.h"
 #elif STM32WBxx
   #include "stm32wbxx_ll_lpuart.h"
+#elif STM32WBAxx
+  #include "stm32wbaxx_ll_lpuart.h"
 #elif STM32WLxx
   #include "stm32wlxx_ll_lpuart.h"
 #endif

@@ -13,7 +13,7 @@
 /*
  * Automatically generated from STM32L552C(C-E)Tx.xml, STM32L552C(C-E)Ux.xml
  * STM32L562CETx.xml, STM32L562CEUx.xml
- * CubeMX DB release 6.0.80
+ * CubeMX DB release 6.0.100
  */
 #if !defined(CUSTOM_PERIPHERAL_PINS)
 #include "Arduino.h"
@@ -95,6 +95,8 @@ WEAK const PinMap PinMap_I2C_SCL[] = {
   {NC,         NP,   0}
 };
 #endif
+
+//*** No I3C ***
 
 //*** TIM ***
 

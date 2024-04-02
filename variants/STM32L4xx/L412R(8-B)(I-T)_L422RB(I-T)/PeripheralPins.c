@@ -14,7 +14,7 @@
  * Automatically generated from STM32L412R8Ix.xml, STM32L412R8Tx.xml
  * STM32L412RBIx.xml, STM32L412RBTx.xml
  * STM32L422RBIx.xml, STM32L422RBTx.xml
- * CubeMX DB release 6.0.80
+ * CubeMX DB release 6.0.100
  */
 #if !defined(CUSTOM_PERIPHERAL_PINS)
 #include "Arduino.h"
@@ -98,6 +98,8 @@ WEAK const PinMap PinMap_I2C_SCL[] = {
   {NC,    NP,   0}
 };
 #endif
+
+//*** No I3C ***
 
 //*** TIM ***
 

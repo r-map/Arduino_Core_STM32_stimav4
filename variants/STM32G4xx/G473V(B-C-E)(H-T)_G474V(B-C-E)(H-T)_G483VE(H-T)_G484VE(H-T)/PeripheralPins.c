@@ -15,7 +15,7 @@
  * STM32G474V(B-C-E)Hx.xml, STM32G474V(B-C-E)Tx.xml
  * STM32G483VEHx.xml, STM32G483VETx.xml
  * STM32G484VEHx.xml, STM32G484VETx.xml
- * CubeMX DB release 6.0.80
+ * CubeMX DB release 6.0.100
  */
 #if !defined(CUSTOM_PERIPHERAL_PINS)
 #include "Arduino.h"
@@ -157,6 +157,8 @@ WEAK const PinMap PinMap_I2C_SCL[] = {
   {NC,         NP,   0}
 };
 #endif
+
+//*** No I3C ***
 
 //*** TIM ***
 
