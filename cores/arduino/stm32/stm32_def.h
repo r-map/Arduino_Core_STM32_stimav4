@@ -6,7 +6,7 @@
  * @brief STM32 core version number
  */
 #define STM32_CORE_VERSION_MAJOR    (0x02U) /*!< [31:24] major version */
-#define STM32_CORE_VERSION_MINOR    (0x07U) /*!< [23:16] minor version */
+#define STM32_CORE_VERSION_MINOR    (0x08U) /*!< [23:16] minor version */
 #define STM32_CORE_VERSION_PATCH    (0x00U) /*!< [15:8]  patch version */
 /*
  * Extra label for development:
@@ -58,6 +58,8 @@
   #include "stm32u5xx.h"
 #elif defined(STM32WBxx)
   #include "stm32wbxx.h"
+#elif defined(STM32WBAxx)
+  #include "stm32wbaxx.h"
 #elif defined(STM32WLxx)
   #include "stm32wlxx.h"
 #else
@@ -69,7 +71,7 @@
 #endif
 
 // Here define some compatibility
-#ifndef ADC1
+#if !defined (ADC1) && defined (ADC)
   #define ADC1 ADC
 #endif
 #ifndef CAN1
